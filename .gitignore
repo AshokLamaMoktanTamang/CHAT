@@ -1,20 +1,51 @@
-# Node modules
-node_modules
+# compiled output
+documentation
+uploads
+photos
+data
+backup
 
-# Build output
+# Dependency directories
+node_modules/
+
+# Output files
 dist
 
-# Environment files
+# dotenv environment variables file
 .env
 
-# OS-specific files
+# others
+graphql.schema.ts
+package-lock.json
+yarn.lock
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
 .DS_Store
-Thumbs.db
+
+# Tests
+coverage
+/.nyc_output
 
 # IDEs and editors
-.vscode/
-.idea/
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# Temporary files
-tmp/
-*.tmp
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
