@@ -14,9 +14,7 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
   const config = app.get(ConfigService);
   const port = config.get<number>('app.port');
 
-  app.setGlobalPrefix('api/v1', {
-    exclude: [{ path: 'health', method: RequestMethod.GET }],
-  });
+  app.setGlobalPrefix('api/v1');
 
   swagger.initSwagger();
   app.useGlobalFilters(new GlobalExceptionFilter());

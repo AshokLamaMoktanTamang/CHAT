@@ -11,11 +11,11 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  @MinLength(5)
+  @MinLength(3)
   firstName: string;
 
   @IsString()
-  @MinLength(5)
+  @MinLength(3)
   lastName: string;
 
   @IsOptional()
@@ -27,7 +27,7 @@ export class CreateUserDto {
   @MinLength(8, {
     message: 'Password must be at least 8 characters long',
   })
-  @Matches(/((?=.*d)|(?=.*W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  @Matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W])(?!.*\s).{8,}$/, {
     message: 'Password too weak',
   })
   password: string;

@@ -9,7 +9,18 @@ export default () => {
     },
     database: {
       mongoUri: env.MONGO_URI,
+      redis: {
+        port: env.REDIS_PORT,
+        host: env.REDIS_HOST,
+      },
     },
     environment: env.NODE_ENV,
+    google: {
+      clientId: env.CLIENT_ID,
+      clientSecret: env.CLIENT_SECRET,
+      emailUser: env.EMAIL_USER,
+      refreshToken: env.REFRESH_TOKEN,
+      redirectUri: env.REDIRECT_URI,
+    },
   };
 };

@@ -9,7 +9,7 @@ import { SwaggerUI } from './swagger-ui.class';
 import { _SWAGGER_TAGS } from './swagger-tags/swagger-tags.constants';
 
 export class Swagger {
-  private readonly logger = new Logger('Swagger');
+  private readonly logger = new Logger(Swagger.name);
   constructor(private readonly app: INestApplication) {}
 
   initSwagger() {

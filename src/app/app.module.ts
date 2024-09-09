@@ -5,11 +5,20 @@ import { AppController } from './app.controller';
 
 import { UserModule } from '@/user/user.module';
 import { AuthModule } from '@/auth/auth.module';
+import { MailModule } from '@/mail/mail.module';
 import { ConfigModule } from '@/config/config.module';
-import { MongoModule } from '@/database/mongo/mongo.module';
+import { QueueModule } from '@/helpers/queue/queue.module';
+import { DatabaseModule } from '@/database/database.module';
 
 @Module({
-  imports: [ConfigModule, MongoModule, UserModule, AuthModule],
+  imports: [
+    ConfigModule,
+    DatabaseModule,
+    UserModule,
+    AuthModule,
+    QueueModule,
+    MailModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

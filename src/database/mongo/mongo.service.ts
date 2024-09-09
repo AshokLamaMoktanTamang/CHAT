@@ -4,7 +4,7 @@ import { Connection, ConnectionStates } from 'mongoose';
 
 @Injectable()
 export class MongoService implements OnModuleInit {
-  private readonly logger = new Logger('MongoService');
+  private readonly logger = new Logger(MongoService.name);
   constructor(@InjectConnection() private readonly connection: Connection) {}
 
   onModuleInit() {

@@ -15,4 +15,14 @@ export const validateEnv = () =>
       choices: ['development', 'production', 'test'],
       default: 'development',
     }),
+    REDIS_HOST: str(),
+    REDIS_PORT: port({
+      desc: 'Port number on which the redis server will run',
+      default: 6379,
+    }),
+    EMAIL_USER: str(),
+    CLIENT_ID: str(),
+    CLIENT_SECRET: str(),
+    REDIRECT_URI: str(),
+    REFRESH_TOKEN: str(),
   });
