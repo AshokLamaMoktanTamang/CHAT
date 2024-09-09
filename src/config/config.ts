@@ -1,15 +1,15 @@
-import { validateEnv } from "./env.validation";
+import { validateEnv } from './env.validation';
 
 export default () => {
-  validateEnv()
-  
+  const env = validateEnv();
+
   return {
     app: {
-      port: parseInt(process.env.APP_PORT, 10) || 3001,
+      port: env.APP_PORT,
     },
     database: {
-      mongoUri: process.env.MONGO_URI,
+      mongoUri: env.MONGO_URI,
     },
-    environment: process.env.NODE_ENV,
+    environment: env.NODE_ENV,
   };
 };
