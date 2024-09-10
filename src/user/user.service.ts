@@ -7,12 +7,18 @@ import { CreateUserDto } from './dto/create-query.dto';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
+  async findUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      filter: { email },
+    });
+
+    return user;
+  }
+
   async createUser(data: CreateUserDto) {
     const { email } = data;
 
-    const emailExistence = await this.userRepository.findOne({
-      filter: { email },
-    });
+    const emailExistence = await this.findUserByEmail(email);
 
     if (emailExistence)
       throw new ConflictException('User with email is already in use');
