@@ -15,6 +15,12 @@ export class UserService {
     return user;
   }
 
+  async findUserById(_id: string) {
+    const user = await this.userRepository.findOne({ filter: { _id } });
+
+    return user;
+  }
+
   async createUser(data: CreateUserDto) {
     const { email } = data;
 

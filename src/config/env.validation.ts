@@ -1,4 +1,4 @@
-import { cleanEnv, str, port } from 'envalid';
+import { cleanEnv, str, port, url } from 'envalid';
 
 export const validateEnv = () =>
   cleanEnv(process.env, {
@@ -25,4 +25,6 @@ export const validateEnv = () =>
     CLIENT_SECRET: str(),
     REDIRECT_URI: str(),
     REFRESH_TOKEN: str(),
+    CLIENT_BASE_URL: url({ default: 'http://localhost:4200' }),
+    JWT_SECRET: str({ default: 'SECRET' }),
   });

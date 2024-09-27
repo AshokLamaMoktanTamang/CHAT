@@ -7,6 +7,7 @@ import { UserModule } from '@/user/user.module';
 import { AuthModule } from '@/auth/auth.module';
 import { MailModule } from '@/mail/mail.module';
 import { ConfigModule } from '@/config/config.module';
+import { BcryptModule } from '@/bcrypt/bcrypt.module';
 import { QueueModule } from '@/helpers/queue/queue.module';
 import { DatabaseModule } from '@/database/database.module';
 
@@ -18,6 +19,7 @@ import { DatabaseModule } from '@/database/database.module';
     AuthModule,
     QueueModule,
     MailModule,
+    BcryptModule,
   ],
   controllers: [AppController],
   providers: [AppService],

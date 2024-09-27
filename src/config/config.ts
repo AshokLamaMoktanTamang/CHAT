@@ -22,5 +22,11 @@ export default () => {
       refreshToken: env.REFRESH_TOKEN,
       redirectUri: env.REDIRECT_URI,
     },
+    client: {
+      baseUrl: env.CLIENT_BASE_URL,
+    },
+    jwt: {
+      secret: env.JWT_SECRET,
+    },
   };
 };
