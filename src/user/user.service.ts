@@ -21,6 +21,15 @@ export class UserService {
     return user;
   }
 
+  async updatePassowrdById(_id: string, password: string) {
+    const user = await this.userRepository.update({
+      filter: { _id },
+      update: { password },
+    });
+
+    return user;
+  }
+
   async createUser(data: CreateUserDto) {
     const { email } = data;
 

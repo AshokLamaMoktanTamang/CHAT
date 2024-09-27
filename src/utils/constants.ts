@@ -3,6 +3,7 @@ export const QUEUES = {
     name: 'mail',
     jobs: {
       signup: 'signup',
+      verifyOtp: 'verifyOtp',
     },
   },
 };

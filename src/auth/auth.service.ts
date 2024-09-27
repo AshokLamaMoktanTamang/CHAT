@@ -1,11 +1,12 @@
 import { Types } from 'mongoose';
 import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
   Logger,
+  Injectable,
+  NotFoundException,
+  ConflictException,
   UnauthorizedException,
+  InternalServerErrorException,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -15,10 +16,17 @@ import { BcryptService } from '@/bcrypt/bcrypt.service';
 import { RedisService } from '@/database/redis/redis.service';
 
 import { User } from '@/user/schema/user.schema';
-import { ISetPassword, ISignIn, ISignUp } from './dto/auth.interfaces';
+import {
+  IForgotPassword,
+  IResetPassword,
+  ISetPassword,
+  ISignIn,
+  ISignUp,
+} from './dto/auth.interfaces';
+import { generateNumericOTP } from '@/utils/generateNumericOtp';
 
 const CACHE_USER_TTL = 6 * 60 * 60;
-const TOKEN_LENGTH = 16;
+const USER_OTP_TTL = 5 * 60;
 
 @Injectable()
 export class AuthService {
@@ -76,7 +84,7 @@ export class AuthService {
     const { email, _id } = user;
     const verificationToken = await this.jwtService.signAsync(user);
 
-    await this.mailService.addToQueue({
+    await this.mailService.addToQueue('signup', {
       email,
       cypherString: verificationToken,
       userId: _id,
@@ -133,6 +141,43 @@ export class AuthService {
     if (!isPasswordValid) throw new UnauthorizedException(errorMessage);
 
     const accessToken = await this.generateAccessToken(user.toObject());
+
+    return { accessToken };
+  }
+
+  async forgotPassword({ email }: IForgotPassword) {
+    const message = 'If user with email exist you will recieve email';
+
+    const user = await this.userService.findUserByEmail(email);
+
+    if (!user) return message;
+
+    const otp = generateNumericOTP(6);
+
+    await Promise.all([
+      this.mailService.addToQueue('verifyOtp', { email: user.email, otp }),
+      this.redisService.set(`${email}:otp`, USER_OTP_TTL),
+    ]);
+
+    return message;
+  }
+
+  async resetPassword({ email, otp, password }: IResetPassword) {
+    const user = await this.userService.findUserByEmail(email);
+
+    if (!user) throw new NotFoundException('User not found');
+
+    const redisOtpKey = `${user.email}:otp`
+    const userOtp = await this.redisService.get(redisOtpKey);
+
+    if (userOtp !== otp.toString())
+      throw new BadRequestException('Failed to reset password');
+
+    const [accessToken] = await Promise.all([
+      this.generateAccessToken(user.toObject()),
+      this.userService.updatePassowrdById(user._id.toString(), password),
+      this.redisService.delete(redisOtpKey)
+    ]);
 
     return { accessToken };
   }

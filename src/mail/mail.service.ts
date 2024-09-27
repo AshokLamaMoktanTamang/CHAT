@@ -31,8 +31,8 @@ export class MailService {
     });
   }
 
-  async addToQueue(data) {
-    await this.mailQueue.add(QUEUES.mail.jobs.signup, data);
+  async addToQueue(job: keyof typeof QUEUES.mail.jobs, data) {
+    await this.mailQueue.add(job, data);
   }
 
   async sendMail(data: SendMailDto) {
