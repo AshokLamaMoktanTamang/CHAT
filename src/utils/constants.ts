@@ -12,3 +12,9 @@ export const REDIS_CLIENT = {
   name: 'chat-cache-db',
   providerKey: 'IO-redis-key',
 };
+
+export enum FRIEND_STATUS {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  BLOCKED = 'BLOCKED',
+}
