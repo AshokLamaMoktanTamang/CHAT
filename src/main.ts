@@ -1,13 +1,14 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { RequestMethod, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app/app.module';
 import { Swagger } from './helpers/swagger';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 
 (async function () {
+  const logger = new Logger('App');
   const app = await NestFactory.create(AppModule);
   const swagger = new Swagger(app);
 
@@ -28,5 +29,7 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
     }),
   );
 
-  await app.listen(port);
+  await app.listen(port, () => {
+    logger.log(`App Running on Port :${port}`);
+  });
 })();

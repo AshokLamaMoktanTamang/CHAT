@@ -1,10 +1,10 @@
-import { Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { FRIEND_STATUS } from '@/utils/constants';
 
 @Schema({ timestamps: true })
-export class Friendship {
+export class Friend extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
   requester: MongooseSchema.Types.ObjectId;
 
@@ -25,4 +25,4 @@ export class Friendship {
   blockedAt?: Date;
 }
 
-export const FriendshipSchema = SchemaFactory.createForClass(Friendship);
+export const FriendSchema = SchemaFactory.createForClass(Friend);
