@@ -1,8 +1,11 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Controller, Param, Post, UseGuards } from '@nestjs/common';
 
 import { FriendsService } from './friends.service';
+
 import { AuthGuard } from '@/common/guard/auth.gaurd';
-import { ApiTags } from '@nestjs/swagger';
+import { MongoIdValidationPipe } from '@/common/pipe/mongoidValidation.pipe';
+import { User } from '@/common/decorator/userParamDecorator';
 
 @ApiTags('Friend')
 @UseGuards(AuthGuard)
@@ -10,9 +13,12 @@ import { ApiTags } from '@nestjs/swagger';
 export class FriendsController {
   constructor(private readonly friendService: FriendsService) {}
 
-  @Post('send-request')
-  sendFriendRequest() {
-    return 'Friend Request Sent';
+  @Post('send-request/:recieverId')
+  sendFriendRequest(
+    @User('_id') senderId: string,
+    @Param('recieverId', MongoIdValidationPipe) recieverId: string,
+  ) {
+    return this.friendService.sendFriendrequest({ recieverId, senderId });
   }
 
   // @Post('accept-request/:id')
