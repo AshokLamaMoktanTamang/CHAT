@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app/app.module';
 import { Swagger } from './helpers/swagger';
@@ -16,6 +16,9 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
   const port = config.get<number>('app.port');
 
   app.setGlobalPrefix('api/v1');
+  app.enableCors({
+    origin: '*',
+  });
 
   swagger.initSwagger();
   app.useGlobalFilters(new GlobalExceptionFilter());

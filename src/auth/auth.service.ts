@@ -156,7 +156,7 @@ export class AuthService {
 
     await Promise.all([
       this.mailService.addToQueue('verifyOtp', { email: user.email, otp }),
-      this.redisService.set(`${email}:otp`, USER_OTP_TTL),
+      this.redisService.set(`${email}:otp`, otp, USER_OTP_TTL),
     ]);
 
     return message;
@@ -167,7 +167,7 @@ export class AuthService {
 
     if (!user) throw new NotFoundException('User not found');
 
-    const redisOtpKey = `${user.email}:otp`
+    const redisOtpKey = `${user.email}:otp`;
     const userOtp = await this.redisService.get(redisOtpKey);
 
     if (userOtp !== otp.toString())
@@ -176,7 +176,7 @@ export class AuthService {
     const [accessToken] = await Promise.all([
       this.generateAccessToken(user.toObject()),
       this.userService.updatePassowrdById(user._id.toString(), password),
-      this.redisService.delete(redisOtpKey)
+      this.redisService.delete(redisOtpKey),
     ]);
 
     return { accessToken };

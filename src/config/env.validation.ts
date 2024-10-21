@@ -25,6 +25,6 @@ export const validateEnv = () =>
     CLIENT_SECRET: str(),
     REDIRECT_URI: str(),
     REFRESH_TOKEN: str(),
-    CLIENT_BASE_URL: url({ default: 'http://localhost:4200' }),
+    CLIENT_BASE_URL: url({ default: 'http://localhost:4000' }),
     JWT_SECRET: str({ default: 'SECRET' }),
   });

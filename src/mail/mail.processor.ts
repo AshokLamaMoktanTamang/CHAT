@@ -53,7 +53,7 @@ export class MailProcessor extends WorkerHost {
     userId: string,
     cypherString: string,
   ): string {
-    const verifyLink = `https://${this.configService.get('client.baseUrl')}/set-password?token=${cypherString}&user=${userId}`;
+    const verifyLink = `${this.configService.get('client.baseUrl')}/set-password?token=${cypherString}&user=${userId}`;
 
     return `
       <div style="font-family: Arial, sans-serif; color: #333;">
