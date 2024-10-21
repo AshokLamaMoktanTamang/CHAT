@@ -1,3 +1,4 @@
+import * as crypto from 'crypto';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -18,7 +19,16 @@ import { User, UserSchema } from './schema/user.schema';
         useFactory: (bcryptService: BcryptService) => {
           const schema = UserSchema;
           schema.pre<User>('save', async function () {
-            if (this?.password) {
+            if (!this?.avatarUrl) {
+              const md5 = crypto
+                .createHash('md5')
+                .update(this.email)
+                .digest('hex');
+
+              this.avatarUrl = `https://gravatar.com/avatar/${md5}?s=200&d=retro`;
+            }
+
+            if (this.password) {
               this.password = await bcryptService.hash(this.password);
             }
           });

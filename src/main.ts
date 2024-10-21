@@ -9,7 +9,9 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 
 (async function () {
   const logger = new Logger('App');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'log', 'verbose'],
+  });
   const swagger = new Swagger(app);
 
   const config = app.get(ConfigService);
